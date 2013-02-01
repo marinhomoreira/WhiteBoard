@@ -1,0 +1,13 @@
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\bin\Debug\iNetwork Server Template1.exe
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\bin\Debug\iNetwork Server Template1.pdb
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\bin\Debug\GroupLab.iNetwork.dll
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\WhiteBoardServer.csprojResolveAssemblyReference.cache
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\MainWindow.baml
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\MainWindow.g.cs
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\App.g.cs
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\iNetwork Server Template1_MarkupCompile.cache
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\iNetwork Server Template1.g.resources
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\WhiteBoardServer.Properties.Resources.resources
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\WhiteBoardServer.csproj.GenerateResource.Cache
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\iNetwork Server Template1.exe
+c:\users\marinho\documents\visual studio 2010\Projects\WhiteBoard\WhiteBoardServer\obj\x86\Debug\iNetwork Server Template1.pdb

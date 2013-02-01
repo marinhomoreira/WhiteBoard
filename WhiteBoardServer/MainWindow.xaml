@@ -1,0 +1,10 @@
+﻿<Window x:Class="WhiteBoardServer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Canvas Name="_mainContainer">
+        <ListBox Height="311" HorizontalAlignment="Left" Name="_clientsList" VerticalAlignment="Top" Width="503" />
+        <StatusBar Height="31" HorizontalAlignment="Left" Margin="0,280,0,0" Name="_statusBar" VerticalAlignment="Top" Width="503" />
+        <Label Content="Status:" Height="28" HorizontalAlignment="Left" Margin="0,283,0,0" Name="_statusLabel" VerticalAlignment="Top" />
+    </Canvas>
+</Window>
