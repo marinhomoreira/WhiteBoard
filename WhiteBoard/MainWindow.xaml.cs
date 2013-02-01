@@ -69,6 +69,8 @@ namespace WhiteBoard
         }
         #endregion
 
+        // client ID
+        private int cID;
 
         #region Main Body
         // Handles the event that a message is received
@@ -80,21 +82,24 @@ namespace WhiteBoard
                 switch (msg.Name)
                 {
                     default:
-                        // Do nothing
+                        Console.WriteLine(msg.Name);
                         break;
-
+                    case "clientID":
+                        this.cID = msg.GetIntField("id");
+                        Console.WriteLine("Client ID: " + cID);
+                        break;
                     case "draw":
                         Point oldP = new Point(msg.GetDoubleField("oldMousePointX"), msg.GetDoubleField("oldMousePointY"));
                         Point currentP = new Point(msg.GetDoubleField("currentMousePointX"), msg.GetDoubleField("currentMousePointY"));
-                        Console.WriteLine(msg.ToString() + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
+                        Console.WriteLine("MSG RECEIVED:"+msg.ToString() + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
                         this.Dispatcher.Invoke(
-                new Action(
-                    delegate()
-                    {
-                        drawFM(oldP, currentP);
+                        new Action(
+                            delegate()
+                            {
+                                drawFM(oldP, currentP);
                         
-                    }
-            ));
+                            }
+                        ));
                         
                         break;
 
@@ -118,7 +123,7 @@ namespace WhiteBoard
             msg.AddField("currentMousePointY", currentMousePoint.Y);
             if (this._connection != null)
                 this._connection.SendMessage(msg);
-            //Console.WriteLine(msg.ToString() + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
+            Console.WriteLine("SENDING MESSAGE: "+msg.ToString() + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
         }
 
         #endregion
@@ -172,6 +177,7 @@ namespace WhiteBoard
         private void myCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.oldMousePoint = e.GetPosition((IInputElement)sender);
+            sendMessage(this.oldMousePoint, this.oldMousePoint);
         }
         #endregion
 

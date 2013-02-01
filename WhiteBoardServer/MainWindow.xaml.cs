@@ -55,6 +55,8 @@ namespace WhiteBoardServer
                 + ", Port: " + this._server.Configuration.Port.ToString();
         }
 
+        private int clientIndex = 0;
+
         // Handles the event that a connection is made
         private void OnServerConnection(object sender, ConnectionEventArgs e)
         {
@@ -68,6 +70,9 @@ namespace WhiteBoardServer
                         // Add to list and create event listener
                         this._clients.Add(e.Connection);
                         e.Connection.MessageReceived += new ConnectionMessageEventHandler(OnConnectionMessage);
+                        Message clientID = new Message("clientId");
+                        clientID.AddField("id", this.clientIndex);
+                        e.Connection.SendMessage(clientID);
 
                         // Using the GUI thread make changes
                         this.Dispatcher.Invoke(
