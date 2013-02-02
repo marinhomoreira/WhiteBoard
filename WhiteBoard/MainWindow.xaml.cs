@@ -38,7 +38,7 @@ namespace WhiteBoard
 
         #region Initialization
         
-        private string _ipAddress = "192.168.20.248";
+        private string _ipAddress = "192.168.0.119";
         private int _port = 12345;
 
         private void InitializeConnection()
