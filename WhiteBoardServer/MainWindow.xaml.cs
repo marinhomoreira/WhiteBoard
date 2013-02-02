@@ -73,7 +73,7 @@ namespace WhiteBoardServer
                         Message clientID = new Message("clientId");
                         clientID.AddField("id", this.clientIndex);
                         e.Connection.SendMessage(clientID);
-
+                        this.clientIndex++;
                         // Using the GUI thread make changes
                         this.Dispatcher.Invoke(
                             new Action(

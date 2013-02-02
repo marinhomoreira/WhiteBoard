@@ -37,35 +37,20 @@ namespace WhiteBoard
 
 
         #region Initialization
+        
+        private string _ipAddress = "192.168.20.248";
+        private int _port = 12345;
+
         private void InitializeConnection()
         {
-            // Look for a service/connection with the given name. Once found go to event handler.
-            Connection.Discover("WhiteBoardService", new SingleConnectionDiscoveryEventHandler(OnConnectionDiscovered));
+            this._connection = new Connection(this._ipAddress, this._port);
+            this._connection.Connected += new ConnectionEventHandler(OnConnected);
+            this._connection.Start();
         }
 
-        // Handles the event that a connection is discovered
-        private void OnConnectionDiscovered(Connection connection)
+        void OnConnected(object sender, ConnectionEventArgs e)
         {
-            // This connection is the connection that is discorvered
-            this._connection = connection;
-
-            if (this._connection != null)
-            {
-                this._connection.MessageReceived += new ConnectionMessageEventHandler(OnMessageReceived);
-                // Start connection -- networking thread
-                this._connection.Start();
-            }
-            else
-            {
-                // Through the GUI thread, close the window
-                this.Dispatcher.Invoke(
-                    new Action(
-                        delegate()
-                        {
-                            this.Close();
-                        }
-                ));
-            }
+            this._connection.MessageReceived += new ConnectionMessageEventHandler(OnMessageReceived);
         }
         #endregion
 
@@ -81,26 +66,27 @@ namespace WhiteBoard
                 // Check message name...
                 switch (msg.Name)
                 {
-                    default:
-                        Console.WriteLine(msg.Name);
-                        break;
-                    case "clientID":
+                    case "clientId":
                         this.cID = msg.GetIntField("id");
                         Console.WriteLine("Client ID: " + cID);
                         break;
                     case "draw":
-                        Point oldP = new Point(msg.GetDoubleField("oldMousePointX"), msg.GetDoubleField("oldMousePointY"));
-                        Point currentP = new Point(msg.GetDoubleField("currentMousePointX"), msg.GetDoubleField("currentMousePointY"));
-                        Console.WriteLine("MSG RECEIVED:"+msg.ToString() + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
-                        this.Dispatcher.Invoke(
-                        new Action(
-                            delegate()
-                            {
-                                drawFM(oldP, currentP);
-                        
-                            }
-                        ));
-                        
+                        if (msg.GetIntField("from") != this.cID)
+                        {
+                            Point oldP = new Point(msg.GetDoubleField("oldMousePointX"), msg.GetDoubleField("oldMousePointY"));
+                            Point currentP = new Point(msg.GetDoubleField("currentMousePointX"), msg.GetDoubleField("currentMousePointY"));
+                            Console.WriteLine("MSG RECEIVED FROM " + msg.GetIntField("from") + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
+                            this.Dispatcher.Invoke(
+                            new Action(
+                                delegate()
+                                {
+                                    drawFM(oldP, currentP);
+                                }
+                            ));
+                        }
+                        break;
+                    default:
+                        Console.WriteLine(msg.Name);
                         break;
 
                     /*
@@ -117,6 +103,7 @@ namespace WhiteBoard
         private void sendMessage(Point oldMousePoint, Point currentMousePoint)
         {
             Message msg = new Message("draw");
+            msg.AddField("from", this.cID);
             msg.AddField("oldMousePointX", oldMousePoint.X);
             msg.AddField("oldMousePointY", oldMousePoint.Y);
             msg.AddField("currentMousePointX", currentMousePoint.X);
@@ -140,6 +127,7 @@ namespace WhiteBoard
                 Point currentMousePoint = e.GetPosition((IInputElement)sender);
                 draw(this.oldMousePoint, currentMousePoint);
                 sendMessage(this.oldMousePoint, currentMousePoint);
+                this.oldMousePoint = currentMousePoint;
             }
         }
 
@@ -154,7 +142,6 @@ namespace WhiteBoard
             line.Y2 = newP.Y;
 
             _mainContainer.Children.Add(line);
-            //this.oldMousePoint = newP;
         }
 
 
@@ -169,9 +156,7 @@ namespace WhiteBoard
             line.X2 = newP.X;
             line.Y2 = newP.Y;
 
-            _mainContainer.Children.Add(line);
-            this.oldMousePoint = newP;
-            
+            _mainContainer.Children.Add(line);         
         }
 
         private void myCanvas_MouseDown(object sender, MouseButtonEventArgs e)
