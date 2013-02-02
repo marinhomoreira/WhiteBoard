@@ -75,12 +75,13 @@ namespace WhiteBoard
                         {
                             Point oldP = new Point(msg.GetDoubleField("oldMousePointX"), msg.GetDoubleField("oldMousePointY"));
                             Point currentP = new Point(msg.GetDoubleField("currentMousePointX"), msg.GetDoubleField("currentMousePointY"));
+                            int color = msg.GetIntField("from") % 4;
                             Console.WriteLine("MSG RECEIVED FROM " + msg.GetIntField("from") + ": " + msg.GetDoubleField("oldMousePointX") + ": " + msg.GetDoubleField("currentMousePointX"));
                             this.Dispatcher.Invoke(
                             new Action(
                                 delegate()
                                 {
-                                    drawFM(oldP, currentP);
+                                    drawFM(oldP, currentP, color);
                                 }
                             ));
                         }
@@ -88,14 +89,6 @@ namespace WhiteBoard
                     default:
                         Console.WriteLine(msg.Name);
                         break;
-
-                    /*
-                     * The following is a basic example:
-                     * 
-                     * case "ReceivedClientID":
-                     *      msg.AddField("clientID", this.clientID);
-                     *      break;
-                     */
                 }
             }
         }
@@ -131,10 +124,26 @@ namespace WhiteBoard
             }
         }
 
-        private void drawFM(Point oldP, Point newP)
+        private void drawFM(Point oldP, Point newP, int colorId)
         {
             Line line = new Line();
-            line.Stroke = Brushes.Blue;
+            switch (colorId)
+            {
+                case 0:
+                    line.Stroke = Brushes.Blue;        
+                    break;
+                case 1:
+                    line.Stroke = Brushes.DarkGray;
+                    break;
+                case 2:
+                    line.Stroke = Brushes.Red;
+                    break;
+                case 3:
+                    line.Stroke = Brushes.Green;
+                    break;
+            }
+            
+            
             line.StrokeThickness = 1;
             line.X1 = oldP.X;
             line.Y1 = oldP.Y;
