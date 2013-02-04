@@ -37,7 +37,7 @@ namespace WhiteBoard
 
 
         #region Initialization
-        
+        // Must change to server's IP and port
         private string _ipAddress = "192.168.0.119";
         private int _port = 12345;
 
@@ -54,7 +54,7 @@ namespace WhiteBoard
         }
         #endregion
 
-        // client ID
+        // client ID used to determine the color of the brush
         private int cID;
 
         #region Main Body
@@ -67,10 +67,12 @@ namespace WhiteBoard
                 switch (msg.Name)
                 {
                     case "clientId":
+                        // receives device ID
                         this.cID = msg.GetIntField("id");
                         Console.WriteLine("Client ID: " + cID);
                         break;
                     case "draw":
+                        // verify who is the message's sender, if it's the same device, don't do anything
                         if (msg.GetIntField("from") != this.cID)
                         {
                             Point oldP = new Point(msg.GetDoubleField("oldMousePointX"), msg.GetDoubleField("oldMousePointY"));
@@ -126,6 +128,7 @@ namespace WhiteBoard
 
         private void drawFM(Point oldP, Point newP, int colorId)
         {
+            // When a draw message is received it must know who sent the message so the color of the draw will be setted
             Line line = new Line();
             switch (colorId)
             {
@@ -156,7 +159,7 @@ namespace WhiteBoard
 
         private void draw(Point oldP, Point newP)
         {
-
+            // Default method to draw on screen
             Line line = new Line();
             line.Stroke = Brushes.Black;
             line.StrokeThickness = 1;
